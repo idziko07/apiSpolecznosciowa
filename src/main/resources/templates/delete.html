@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ty i znajomi</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="navbar navbar-light bg-light justify-content-between">
+        <div>
+            <p th:text="${userName}" style="color: chartreuse" class="navbar-brand" ></p>
+            <form action="logMeOut" th:action="@{/logMeOut}" method="post" >
+                <input type="submit" value="Wyloguj" class="btn btn-dark" />
+            </form>
+        </div>
+        <form class="form-inline" action="/my/searchFrends" method="get" >
+            <input  type="text" name="name" class="form-control mr-sm-2" placeholder="Imie">
+            <input type="text" name="lastName" class="form-control mr-sm-2" placeholder="Nazwisko">
+            <input type="submit" value="search" class="btn btn-outline-success my-2 my-sm-0">
+        </form>
+    </div>
+
+    <div class="d-flex flex-row ">
+        <div class= "nav nav-pills nav-justified flex-column " >
+            <a class= "nav-link " href= "/my/" > Moj profil </a>
+            <a class= "nav-link" th:href="'/my/update?username=' + ${userName}">Edytuj dane</a>
+            <a class= "nav-link active " th:href= "'/my/friendSend?username='+${userName}" >Wysłane zaproszenia </a>
+            <a class= "nav-link " th:href= "'/my/showInvitation?username=' +${userName}" > Zaproszenia </a>
+            <a class= "nav-link " th:href= "'/my/listFriends?username=' +${userName}" > Znajomi </a>
+            <a class= "nav-link " href= "/delete" > Usuń konto </a>
+        </div>
+
+        <div style="width: 100%">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Imię</th>
+                    <th scope="col">Nazwisko</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user:${users}">
+                    <th scope="row"></th>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td><a th:href="'/deleteUser?id=' + ${user.id}" class="btn btn-danger">Usuń</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
